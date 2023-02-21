@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 
-require('./db.js');
+const { Recipe, Diet } = require('./db.js'); // D: Me traigo los modelos para trabajar
 
-const server = express();
+const server = express(); // D: server también suele llamarse app y es nuestra aplicacion
 
 server.name = 'API';
 
@@ -22,7 +22,7 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use('/', routes);
+server.use('/', routes); // D: Esto ya viene así. Pero ver si no hay que cambiar por: server.use(router). Vinculado linea 5
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
@@ -31,5 +31,6 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.error(err);
   res.status(status).send(message);
 });
+
 
 module.exports = server;

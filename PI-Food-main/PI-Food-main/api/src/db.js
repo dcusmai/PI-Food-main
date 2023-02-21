@@ -2,11 +2,16 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
+
+
+const recipeModel = require('./models/Recipe'); // D: Agregué estas dos líneas para presentar los modelos a la db
+const dietsModel = require('./models/Diet');
+
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, API_KEY, // D: Agregé DB_NAME y API_KEY
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/food`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, { // D: Cambio food por ${DB_NAME} de mi db. OTRO: No veo que pongan el nro de puerto 5432¿?
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -30,10 +35,22 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Recipe } = sequelize.models;
+
+recipeModel(sequelize); // D: invoco a las fc que cree y le paso como parámetro la db (ver si es sequelize/datasbase/food)
+dietsModel(sequelize); // D: idem
+
+
+const { Recipe, Diet } = sequelize.models; // D: Esto me lo dan así, agrego Diet. Destructuring de la db sequelize
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+
+Recipe.belongsToMany(Diet, {through: 'RecipeDiet'}); // D: Establezco la relación de muchos a muchos y se crea la tabla intermedia RecipeDiets
+Diet.belongsToMany(Recipe, {through: 'RecipeDiet'}); // D: idem
+
+
+
+// D: Qué hace este código? lee la carpeta models, define los modelos (cada archivo con su nombre) y define llamando a la función pasando (sequelize). Ver models
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
