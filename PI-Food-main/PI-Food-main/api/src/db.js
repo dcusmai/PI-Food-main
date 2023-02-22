@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-const recipeModel = require('./models/Recipe'); // D: Agregué estas dos líneas para presentar los modelos a la db
+const recipeModel = require('./models/Recipe'); // D: Agregué estas dos líneas para presentar los modelos a la db. Pablo no lo tiene
 const dietsModel = require('./models/Diet');
 
 const {
