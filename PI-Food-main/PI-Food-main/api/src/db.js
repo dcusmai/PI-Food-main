@@ -39,6 +39,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 recipeModel(sequelize); // D: invoco a las fc que cree y le paso como parámetro la db (ver si es sequelize/datasbase/food)
 dietsModel(sequelize); // D: idem
 
+// console.log(sequelize.models) // { Recipe: Recipe, Diet: Diet }
 
 const { Recipe, Diet } = sequelize.models; // D: Esto me lo dan así, agrego Diet. Destructuring de la db sequelize
 
@@ -53,6 +54,6 @@ Diet.belongsToMany(Recipe, {through: 'RecipeDiet'}); // D: idem
 // D: Qué hace este código? lee la carpeta models, define los modelos (cada archivo con su nombre) y define llamando a la función pasando (sequelize). Ver models
 
 module.exports = {
+  sequelize,     // para importart la conexión { conn } = require('./db.js');
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
 };

@@ -1,20 +1,23 @@
 const { Router } = require('express'); // D: Voy a modularizar todas las rutas de Recipe. 
+const { Recipe, Diet } = require('../db'); // D: agrego porque Pablo lo trae
 // Importar todos los routers;
 
+
 const { 
-  getRecipeById, 
-  getAllRecipes, 
-  createRecipes, 
+  getRecipeByIdHandler,
+  getAllRecipesHandler,
+  createRecipesHandler, 
 } = require('../handlers/recipesHandlers'); // D: Mando todos los handlers a handlers/recipesHandlers
 
-const recipeRouter = Router();
 // Configurar los routers
 
-recipeRouter.get('/recipes/:id', getRecipeById); // D: Modularizo cada ruta para más orden, además trabajo sin comprometer las rutas con los handlers separados.
+const recipeRouter = Router();
 
-recipeRouter.get('/recipes', getAllRecipes);
+recipeRouter.get('/:id', getRecipeByIdHandler); // D: Modularizo cada ruta para más orden, además trabajo sin comprometer las rutas con los handlers separados.
+
+recipeRouter.get('/', getAllRecipesHandler);
   
-recipeRouter.post('/recipes', createRecipes);
+recipeRouter.post('/', createRecipesHandler); // D: saqué recipes de la ruta
   
   
 module.exports = recipeRouter;

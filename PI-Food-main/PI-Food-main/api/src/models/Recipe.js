@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => { // D: Acá podría usar database en vez de sequelize, sería más claro.
   // defino el modelo
-  sequelize.define('recipe', { // D: ¿Acá recipe no iría con mayúscula? Recipe
+  sequelize.define('Recipe', { // D: ¿Acá recipe no iría con mayúscula? Recipe(estaba en minuscula)
 
     id:{
       type: DataTypes.UUID,
