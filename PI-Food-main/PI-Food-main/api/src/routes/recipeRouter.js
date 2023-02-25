@@ -17,7 +17,7 @@ recipeRouter.get('/:id', getRecipeByIdHandler); // D: Modularizo cada ruta para 
 
 recipeRouter.get('/', getAllRecipesHandler);
   
-recipeRouter.post('/', createRecipesHandler); // D: saqué recipes de la ruta
+recipeRouter.post('/', createRecipesHandler); // D: saqué recipes de la ruta de los 3
   
   
 module.exports = recipeRouter;

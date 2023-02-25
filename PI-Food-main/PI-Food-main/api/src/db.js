@@ -46,8 +46,8 @@ const { Recipe, Diet } = sequelize.models; // D: Esto me lo dan así, agrego Die
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Recipe.belongsToMany(Diet, {through: 'RecipeDiet'}); // D: Establezco la relación de muchos a muchos y se crea la tabla intermedia RecipeDiets
-Diet.belongsToMany(Recipe, {through: 'RecipeDiet'}); // D: idem
+Recipe.belongsToMany(Diet, {through: 'RecipeDiets'}); // D: Establezco la relación de muchos a muchos y se crea la tabla intermedia RecipeDiets
+Diet.belongsToMany(Recipe, {through: 'RecipeDiets'}); // D: idem
 
 
 

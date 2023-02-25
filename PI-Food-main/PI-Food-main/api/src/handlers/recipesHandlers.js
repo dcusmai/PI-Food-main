@@ -1,6 +1,7 @@
 const { getRecipeById, getAllRecipes, searchRecipeByName, createRecipes } = require('../controllers/recipesController');
 
 // GET| /recipes/:id
+
 const getRecipeByIdHandler = async (req, res) => { // D: Acá están todos los handlers de Recipes modularizados para no comprometer las rutas por error
   const { id } =  req.params;   
   const source = isNaN(id) ? "food" : "api" // D: si es true, significa que la id es de nuestra db (UUID). Si es false, viene de la API (integer).
@@ -18,48 +19,18 @@ const getRecipeByIdHandler = async (req, res) => { // D: Acá están todos los h
 
 const getAllRecipesHandler =  async (req, res) => {
   const { name }  = req.query;  
-  //try {
-      const results = name ? searchRecipeByName(name) : await getAllRecipes()
+  try {
+      const results = name ? await searchRecipeByName(name) : await getAllRecipes()
+      if(!results) throw new Error('Recipe not fouded');
       res.status(200).json(results);
-}  
-      /*
-      const allRecipes = await getAllRecipes();
-      
-        const recipeByName = await getAllRecipes({
-          where: {
-                name
-                }
-        });
-        res.status(200).json(recipeByName);
-      }  
   } catch (error) {
       res.status(404).send(error.message);
-  } */
-
-
-
-/* FORMA DE DAIANA
-const getAllRecipesHandler =  async (req, res) => {
-    try {
-        const { name }  = req.query;  
-        if(!name) {
-          const allRecipes = await getAllRecipes();
-          res.status(200).json(allRecipes);
-        } else {
-          const recipeByName = await getAllRecipes({
-            where: {
-                  name
-                  }
-          });
-          res.status(200).json(recipeByName);
-        }  
-    } catch (error) {
-        res.status(404).send(error.message);
-    }
-  }; */
+  };
+};
 
 
 // POST| /recipes
+
 const createRecipesHandler = async (req, res) => {
     try {
         const { name, image, summary, healthScore, steps } = req.body;  

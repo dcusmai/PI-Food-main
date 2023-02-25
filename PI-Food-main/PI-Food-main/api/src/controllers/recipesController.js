@@ -1,16 +1,40 @@
-const { Recipe } = require('../db'); // Creo los Controllers porque mis Handlers no tienen que interactuar directamente con los modelos, pero los controller si pueden.
+const { Recipe, Diet } = require('../db'); // Creo los Controllers porque mis Handlers no tienen que interactuar directamente con los modelos, pero los controller si pueden.
 const axios = require('axios');
 //require('dotenv').config();
 const { API_KEY } = process.env;
 //const Recipe = require('../models/Recipe');
+const { getAllDiets } = require('../controllers/dietsController'); // D: me lo traigo para tratar de relacionar las diets con recipes
 
-const getRecipeById = async(id, source) => { // D: No me anda la API
+
+// GET| /recipes/:id
+
+const getRecipeById = async(id, source) => { // D: Ya anda la API pechocha
     const recipe = 
-        source === "api" ?
-            (await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)).data // D: &offset=${id}
-            : await Recipe.findByPk(id); // D: con esto, me filtra por el tipo de Id (integer/UUID) y trae el que corresponde de la API o DB
+        source === "api" ? // D: con esto, me filtra por el tipo de Id (integer/UUID) y trae el que corresponde de la API o DB
+            (await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)).data.results.map((e) => { // /${id} 
+                return {
+                    id: e.id,
+                    name: e.title,
+                    summary: e.summary,
+                    image: e.image,
+                    healthScore: e.healthScore,
+                    steps: (e.analyzedInstructions[0] && e.analyzedInstructions[0].steps ? e.analyzedInstructions[0].steps.map(el => el.step).join("| ") : 'No steps availables'),
+                    diets: e.diets?.map((ele) => ele),
+                    created: false // D: Flag para poder filtrar entre db (true) y api (false)
+                }
+            }).find(recipe => recipe.id === parseInt(id))
+            : await Recipe.findByPk(id, {
+                include: {  // D: NO FUNCIONA: Con esto intento que me incluya los tipos de dietas asociados a las recetas cuando busque por id.
+                    model: Diet,
+                    attributes: ['name'],
+                }
+            }
+            ); 
     return recipe;
 };
+
+
+// GET ALL RECIPES - GET| /recipes/name?=...
 
 const getAllRecipes = async() => {
     const databaseRecipes = await Recipe.findAll();
@@ -24,7 +48,8 @@ const getAllRecipes = async() => {
             image: elem.image,
             summary: elem.summary,
             healthScore: elem.healthScore,
-            steps: (elem.analyzedInstructions[0] && elem.analyzedInstructions[0].steps ? elem.analyzedInstructions[0].steps.map(e => e.step).join("| ") : 'No hay pasos')
+            steps: (elem.analyzedInstructions[0] && elem.analyzedInstructions[0].steps ? elem.analyzedInstructions[0].steps.map(e => e.step).join("| ") : 'No steps availables'),
+            created: false // D: Flag para poder filtrar entre db (true) y api (false)
         }
     });
 
@@ -34,17 +59,29 @@ const getAllRecipes = async() => {
     }
 
 const searchRecipeByName = async(name) => {
-    const recipesApiDb = await getAllRecipes(); //(rec) => {        rec.name.toLowerCase() === name.toLowerCase();
-    const recipesFounded = await recipesApiDb.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
-    
-    
-    if(!recipesFounded) throw new Error('Recipe not fouded');
-    return recipesFounded;
-    
+    const recipesApiDb = await getAllRecipes();
+    const recipesFounded = await recipesApiDb.filter(el => el.name.toLowerCase().includes(name.toLowerCase()));
+    return recipesFounded;    
 }
 
-const createRecipes = async (name, image, summary, healthScore, steps) => {
-    const newRecipe =  await Recipe.create({name, image, summary, healthScore, steps});
+/* FORMA JORGE VEGA:
+const databaseRecipes = await.Recipes.findAll({where: {name}});
+const apiRecipesRaw = (await axios.get()).data.results;
+const apiRecipes = cleanArray(apiRecipesRaw);
+const filteredApi = apiRecipes.filter((user)=>user.name===name); //D: faltaría cambiar el === por un iLike o includes() para que me busque aunque le pase un nombre incompleto o inexacto.
+    return [...databaseRecipes, ...filteredApi];    
+};
+*/
+
+
+// POST| /recipes
+
+const createRecipes = async (name, image, summary, healthScore, steps, diets) => {
+    const newRecipe =  await Recipe.create({name, image, summary, healthScore, steps, diets});
+    const dietRecipeDb = await Diet.findAll({
+        where: {name},
+    })
+    newRecipe.addDiet(dietRecipeDb)
     return newRecipe;
 }
 
