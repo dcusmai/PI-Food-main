@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"; // D: Voy a usar Hooks
-import { getRecipes, filterRecipesByStatus, filterRecipesByDiets } from "../actions";
+import { getRecipes, filterRecipesByStatus, filterRecipesByDiets, orderByName, orderByHealthScore } from "../actions";
 import { Link  } from "react-router-dom";
 import Card from "./Card"
 import Paginado from "./Paginado";
+import SearchBar from "./SearchBar";
 
 export default function Home(){
 
@@ -15,6 +16,7 @@ export default function Home(){
     const indexOfLastRecipe = currentPage * recipesPerPage; // 9
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage; // 0
     const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe) // D: Esto corta y devuelve un arr con las recipes actuales que están entre los índices 0 y 9 (sin el 9). Es decir, devuelve los 9 recipes mostrados en la pagina
+    const [orden, setOrden] = useState('')
 
     const paginado = (pageNumbers) => { // D: Esta const me va a  ayudar al paginado. Lo hago acá para renderizar y me voy al comp Paginado.jsx
         setCurrentPage(pageNumbers);
@@ -27,6 +29,20 @@ export default function Home(){
     function handleClick(event){ // D: Creo un Handler para el Botón "volver a cargar recetas". Siempre va arriba.
         event.preventDefault();
         dispatch(getRecipes()); // D: Esta fc resetea y vuelve a traer todo en caso que se buguee.
+    }
+
+    function handleSort(e){
+        e.preventDefault();
+        dispatch(orderByName(e.target.value))
+        setCurrentPage(1);
+        setOrden(`Ordenado ${e.target.value}`)
+    }
+
+    function handleSortHealth(e){
+        e.preventDefault();
+        dispatch(orderByHealthScore(e.target.value))
+        setCurrentPage(1);
+        setOrden(`Ordenado ${e.target.value}`)
     }
 
     function handleFilterStatus(e){
@@ -79,10 +95,11 @@ export default function Home(){
                 allRecipes = {allRecipes.length}
                 paginado = {paginado}
                 />
-
+        <SearchBar></SearchBar>
+        </div>
                 {currentRecipes?.map((el) => {
                         return(
-                            <div>
+                            <div classname='cartas'>
                                 <Link to={"/home/" + el.id}>
                                     <Card name={el.name} diet={el.diets} image={el.image} key={el.id}></Card>
                                 </Link>
@@ -90,7 +107,6 @@ export default function Home(){
                         )                        
                     })    
                 }
-            </div>
         </div>
     )
 }
