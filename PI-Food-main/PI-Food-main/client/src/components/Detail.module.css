@@ -1,0 +1,67 @@
+.body {
+    background: url('https://www.freewebheaders.com/wp-content/gallery/food/various-spices-and-herbs-website-header.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: bisque;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 30px;
+  }
+
+.bodyCreate {
+    margin-left: 350px;
+    background-color: bisque;
+    width: 700px;
+    padding: 20px;
+  }
+
+.detailLoading{
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+    text-align: justify;
+    padding: 3px;
+}
+
+.detailName{
+    font-size: 35px;
+    color: antiquewhite;
+    text-shadow: 2px 2px 2px brown;
+    padding: 20px;
+}
+
+.image{
+    border-radius: 5%;
+}
+
+.Summary{
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+    text-align: left;
+    padding: 10px;
+}
+
+.healthScore{
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+    text-align: left;
+    padding: 10px;
+}
+
+.Steps{
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+    text-align: left;
+    padding: 10px;
+}
+
+.Diets{
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+    text-align: left;
+    padding: 10px;
+}

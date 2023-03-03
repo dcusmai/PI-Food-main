@@ -83,38 +83,38 @@ useEffect(() =>{
 return(
     <div className={style.bodyCreate}>
         <div  className="h1Form">
-        <h1 className={style.h1Letra}>Crea tu receta</h1>
+            <h1 className={style.h1Letra}>Crea tu receta</h1>
         </div>
         <form className={style.form} onSubmit={(e)=>handleSubmit(e)}>
-            <div className="formName">
+            <div className={style.formName}>
                 <label>Nombre: </label>
                 <input type='text' value={input.name} name='name' onChange={e=>handleChange(e)} />
                 {errors.name && (<p className="error">{errors.name}</p>)}
             </div>
-            <div className="formImage">
+            <div className={style.formImage}>
                 <label>Imagen: </label>
                 <input type='text' value={input.image} name='image' onChange={e=>handleChange(e)} placeholder="URL" />
                 {errors.image && (<p className="error">{errors.image}</p>)}
             </div>
-            <div className="formSummary">
+            <div className={style.formSummary}>
                 <label>Resumen del plato: </label>
-                <textarea value={input.summary} name='summary' onChange={e=>handleChange(e)} rows="3" cols="30"/>
+                <textarea value={input.summary} name='summary' onChange={e=>handleChange(e)} rows="3" cols="45"/>
                 {errors.summary && (<p className="error">{errors.summary}</p>)}
             </div>
-            <div className="formSummary">
+            <div className={style.formHealthScore}>
                 <label>Nivel de comida saludable: </label>
                 <input type='number' value={input.healthScore} name='healthScore' onChange={e=>handleChange(e)} />
                 {errors.healthScore && (<p className="error">{errors.healthScore}</p>)}
             </div>
-            <div className="formSteps">
-                <label>Paso a Paso: </label>
+            <div className={style.formSteps}>
+                <label>Paso a Paso: </label>                
                 <textarea value={input.steps} name='steps'
-                rows="5" cols="30" placeholder="To make this recipe it is necessary to follow the following steps:"
+                rows="3" cols="45" placeholder="To make this recipe it is necessary to follow the following steps:"
                 onChange={e=>handleChange(e)}/>
                 {errors.steps && (<p className="error">{errors.steps}</p>)}
             </div>
             {/* <div className="formDiets"> */}
-                <label>Selecciona una o más dietas: </label>
+                <label className={style.formDiets}>Selecciona una o más dietas: </label>
             <select onChange={(e)=>handleSelect(e)}>
             <option value="">(Select one)</option>
                 {diets.map((diet)=>(
@@ -130,7 +130,7 @@ return(
                 {/* </div>                           */}
             
 
-            <button className="buttonForm" type='submit' disabled={input.name&&input.healthScore&&input.image&&input.steps&&input.summary ? false : true} >Crear Receta</button>
+            <button className={style.buttonForm} type='submit' disabled={input.name&&input.healthScore&&input.image&&input.steps&&input.summary ? false : true} >Crear Receta</button>
 
         </form>
         <div className="return">
