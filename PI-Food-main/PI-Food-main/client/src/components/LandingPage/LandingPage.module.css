@@ -1,0 +1,70 @@
+body {
+  background: url('https://picfiles.alphacoders.com/289/289156.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  width: 100%;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 200px;
+    margin: 0 auto;
+    padding: 34px 30px;
+  }
+  .bienvenidos {
+    font-family: "Nunito";
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    background-color: rgb(230, 166, 82);
+    letter-spacing: -1px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    padding: 34px 30px;
+  }
+  .henryfood {
+    font-family: "Nunito";
+    font-size: 50px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: #320000;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 34px 30px
+  }
+  .ingresar {
+    display: flex;
+    align-items: center;
+    font-family: "Montserrat";
+    font-size: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.5%;
+    color: #000000;
+    background-color: var(--naranja);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .ingresar:hover {
+    background-color: var(--naranja-oscuro);
+  }
+  .cristophe {
+    display: flex;
+    align-items: justify;
+    width: 30%;
+    height: auto;
+  }

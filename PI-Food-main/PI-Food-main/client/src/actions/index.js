@@ -15,7 +15,7 @@ export function getRecipes(){
 export function getNameRecipes(name){ // D: name es lo que llega por payload
     return async function (dispatch) {
         try {
-            const json = await axios.get("http://localhost:3001/recipes/name=" + name);
+            const json = await axios.get(`http://localhost:3001/recipes?name=${name}`);
             return dispatch({
                 type: "GET_NAME_RECIPES",
                 payload: json.data
@@ -74,7 +74,7 @@ export function filterCreated(payload){
 export function getDetail(id){
     return async function  (dispatch) {
         try {
-            let json = await  axios.get ("http://localhost:3001/recipes" + id);
+            let json = await  axios.get (`http://localhost:3001/recipes/${id}`);
             return dispatch({
                 type: 'GET_DETAILS',
                 payload: json.data

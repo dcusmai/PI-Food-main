@@ -7,8 +7,8 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
-        case "GET_RECIPES":
-            return{
+            case "GET_RECIPES":
+                return{
                 ...state,
                 recipes: action.payload,
                 allRecipes: action.payload
@@ -19,7 +19,7 @@ const rootReducer = (state = initialState, action) => {
                     recipes: action.payload
                 }
             case 'FILTER_BY_STATUS':
-                const allRecipes = state.allRecipes
+                //const allRecipes = state.allRecipes
                 const statusFiltered = action.payload === "created" ? state.allRecipes.filter(el => el.created) : state.allRecipes.filter(el => !el.created)
                 return{
                     ...state,
@@ -39,13 +39,19 @@ const rootReducer = (state = initialState, action) => {
                     ...state,
                     diets: action.payload
                 }
-            case 'FILTER_BY_DIETS': // D: Revisar si está bien
-                const allRecipesByDiets = state.recipes
-                const statusFilteredByDiets = action.payload === "all" ? allRecipesByDiets : allRecipesByDiets.filter(el => el.status === action.payload)
-                return{
-                    ...state,
-                    recipes: statusFilteredByDiets
-                    }    
+            case 'FILTER_BY_DIETS': 
+                    const allRecipesByDiets = state.allRecipes
+                    const filtered = action.payload === 'all' 
+                    ? allRecipesByDiets 
+                    : allRecipesByDiets?.filter(el => el.diets?.includes(action.payload))
+                    return {
+                        ...state,
+                        recipes: filtered
+                    }
+
+
+
+
             case 'ORDER_BY_NAME':
                 const sortedArr = action.payload === 'asc' ?
                     state.recipes.sort(function(a, b) {
@@ -71,7 +77,7 @@ const rootReducer = (state = initialState, action) => {
                         recipes: sortedArr
                     }
                 case 'ORDER_BY_HEALTH':
-                const sortedArr2 = action.payload === 'asc' ?
+                const sortedArr2 = action.payload === 'mas' ?
                     state.recipes.sort(function(a, b) {
                         if(a.name > b.name) {
                             return 1;

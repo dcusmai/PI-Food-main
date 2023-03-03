@@ -1,11 +1,12 @@
 import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"; // D: Voy a usar Hooks
-import { getRecipes, filterRecipesByStatus, filterRecipesByDiets, orderByName, orderByHealthScore } from "../actions";
+import { getRecipes, filterRecipesByStatus, filterRecipesByDiets, orderByName, orderByHealthScore } from "../../actions";
 import { Link  } from "react-router-dom";
-import Card from "./Card"
-import Paginado from "./Paginado";
-import SearchBar from "./SearchBar";
+import Card from "../Card"
+import Paginado from "../Paginado";
+import SearchBar from "../SearchBar";
+import style from './Home.module.css';
 
 export default function Home(){
 
@@ -51,23 +52,26 @@ export default function Home(){
 
     function handleFilterDiets(e){
         dispatch(filterRecipesByDiets(e.target.value))
+        setCurrentPage(1);
     }
 
     return(
-        <div>
-            <Link to='/recipes'>Crear receta</Link>
-            <hi>Bienvenidos a la Cocina de Henry!</hi>
+        <div className={style.home}>
+            <button classname={style.crearReceta}>
+                <Link to='/creates'>Crear receta</Link>
+            </button>
+            <h1 className={style.bienvenidos}>Bienvenidos a la Cocina de Henry!</h1>
             <button onClick={event => {handleClick(event)}}>
                 Volver a cargar recetas
             </button>
             <div>
-                <select> // D: Ordenar alfabéticamente
+                <select onChange={e => handleSort(e)}> // D: Ordenar alfabéticamente
                     <option value='asc'>Ascendente</option>
                     <option value='desc'>Descendente</option>
                 </select>
-                <select> // D: Ordenar por puntaje alimento saludable
+                <select onChange={e => handleSortHealth(e)}> // D: Ordenar por puntaje alimento saludable
                     <option value='mas'>Health Score Ascendente</option> // D: Ordena de más a menos saludable healtScore.
-                    <option value='menos'>Health Score Descendente</option> // D: revisar si los value que he usado están bien.
+                    <option value='menos'>Health Score Descendente</option> 
                 </select>
                 <select onChange={e => handleFilterStatus(e)}> // D: Filtrar por Todos, Creados en mi db y Traidos de la API
                     <option value='all'>Todos</option>
@@ -90,7 +94,7 @@ export default function Home(){
                     <option value="whole 30">whole 30</option>
                     <option value="dairy free">dairy free</option>
                 </select>
-                <Paginado
+                <Paginado 
                 recipesPerPage = {recipesPerPage}
                 allRecipes = {allRecipes.length}
                 paginado = {paginado}
@@ -100,7 +104,7 @@ export default function Home(){
                 {currentRecipes?.map((el) => {
                         return(
                             <div classname='cartas'>
-                                <Link to={"/home/" + el.id}>
+                                <Link to={`/detail/${el.id}`}>
                                     <Card name={el.name} diet={el.diets} image={el.image} key={el.id}></Card>
                                 </Link>
                             </div>

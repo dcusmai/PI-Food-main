@@ -1,5 +1,5 @@
 const { Router } = require('express'); // D: Voy a modularizar todas las rutas de Recipe. 
-const { Recipe, Diet } = require('../db'); // D: agrego porque Pablo lo trae
+const { Recipe, Diet } = require('../db'); 
 // Importar todos los routers;
 
 

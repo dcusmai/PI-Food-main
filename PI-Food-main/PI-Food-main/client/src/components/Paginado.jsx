@@ -1,4 +1,5 @@
 import React from "react";
+import style from './Paginado.module.css'
 
 export default function Paginado ({ recipesPerPage, allRecipes, paginado }) { // D: declaro mi paginado y me traigo las propiedades
     const pageNumbers = []; // D: Declaro un arr vacío
@@ -7,15 +8,17 @@ export default function Paginado ({ recipesPerPage, allRecipes, paginado }) { //
         pageNumbers.push(i+1)
     }
     return(
-        <nav>
-            <ul className="paginado">
+    
+        <nav className={style.pagination_component}>
+            <ul className={style.pagination}>
                 { pageNumbers && // D: Si tengo algo en este arr, mapealo y devolveme cada uno de los nros que te devuelva el paginado.
                 pageNumbers.map(number => (
-                    <li className="number" key={number}>
-                        <a onClick={() => paginado(number)}>{number}</a>
+                    <li className={style.pagination_item} key={number}>
+                        <button className={style.page} onClick={() => paginado(number)}>{number}</button>
                     </li>
                 ))}
             </ul>
         </nav>
+    
     )
 }

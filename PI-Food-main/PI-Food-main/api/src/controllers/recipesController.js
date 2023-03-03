@@ -24,7 +24,7 @@ const getRecipeById = async(id, source) => { // D: Ya anda la API pechocha
                 }
             }).find(recipe => recipe.id === parseInt(id))
             : await Recipe.findByPk(id, {
-                include: {  // D: NO FUNCIONA: Con esto intento que me incluya los tipos de dietas asociados a las recetas cuando busque por id.
+                include: {  // 
                     model: Diet,
                     attributes: ['name'],
                 }
@@ -49,6 +49,7 @@ const getAllRecipes = async() => {
             summary: elem.summary,
             healthScore: elem.healthScore,
             steps: (elem.analyzedInstructions[0] && elem.analyzedInstructions[0].steps ? elem.analyzedInstructions[0].steps.map(e => e.step).join("| ") : 'No steps availables'),
+            diets: elem.diets?.map((ele) => ele),
             created: false // D: Flag para poder filtrar entre db (true) y api (false)
         }
     });
@@ -63,15 +64,6 @@ const searchRecipeByName = async(name) => {
     const recipesFounded = await recipesApiDb.filter(el => el.name.toLowerCase().includes(name.toLowerCase()));
     return recipesFounded;    
 }
-
-/* FORMA JORGE VEGA:
-const databaseRecipes = await.Recipes.findAll({where: {name}});
-const apiRecipesRaw = (await axios.get()).data.results;
-const apiRecipes = cleanArray(apiRecipesRaw);
-const filteredApi = apiRecipes.filter((user)=>user.name===name); //D: faltaría cambiar el === por un iLike o includes() para que me busque aunque le pase un nombre incompleto o inexacto.
-    return [...databaseRecipes, ...filteredApi];    
-};
-*/
 
 
 // POST| /recipes

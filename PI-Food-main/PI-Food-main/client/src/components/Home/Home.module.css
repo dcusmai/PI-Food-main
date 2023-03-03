@@ -1,0 +1,24 @@
+
+.home {
+    background: url('https://www.freewebheaders.com/wp-content/gallery/food/various-spices-and-herbs-website-header.jpg');
+    background-size: 100% 200px;
+    background-repeat: no-repeat;
+    background-color: bisque;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+.crearReceta {
+    border: none;
+    background-color: azure;
+    padding: 50px 50px;
+    font-size: 35px;
+    cursor: pointer;
+    display: inline;    
+}
+.bienvenidos {
+  font-size: 35px;
+  color: antiquewhite;
+  text-shadow: 2px 2px 2px brown;  
+}
+

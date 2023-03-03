@@ -1,17 +1,17 @@
-import React  from "react";
-import { useState } from "react";
+import React from "react";
+import {useState} from 'react';
 import { useDispatch } from "react-redux";
 import { getNameRecipes } from '../actions';
 
-export default function SearchBar(){
-    const dispatch =  useDispatch();
-    const [ name, setName ] = useState("");
+export default function SearchBar () {
+    const dispatch = useDispatch()
+    const [name, setName] = useState("")
 
-    function handleImputChange(e){
+    function handleInputChange(e){
         e.preventDefault()
         setName(e.target.value)
     }
-
+    
     function handleSubmit(e){
         e.preventDefault()
         dispatch(getNameRecipes(name))
@@ -19,12 +19,15 @@ export default function SearchBar(){
 
     return (
         <div>
-            <input
-                type= 'text'
-                placeholder= 'Buscar...'
-                onChange={(e) => handleImputChange(e)} 
-            />
-            <button type='submit' onClick={(e) => handleSubmit(e)}>Buscar</button>
+            <input 
+            type= 'text' 
+            placeholder="Buscar una receta" 
+            onChange={(e) => handleInputChange(e)} />
+
+            <button 
+            type="submit" 
+            onClick={(e)=>handleSubmit(e)}>Search</button>
         </div>
     )
+
 }

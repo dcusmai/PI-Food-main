@@ -1,0 +1,24 @@
+
+.pagination_component {
+    margin: 20px 400px 10px;
+    padding: auto;
+    
+  }
+   
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    gap: 20px;
+  } 
+ 
+  .pagination_item {
+    border-radius: 5px;
+    overflow: hidden;
+    list-style: none;
+  }
+  
+  .pagination_item:hover {
+    padding: 5px;
+    background-color: orange;
+  } 
